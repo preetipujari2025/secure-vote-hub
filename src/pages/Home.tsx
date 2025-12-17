@@ -94,17 +94,17 @@ const Home = () => {
               </Link>
               <Link to="/login" className="btn-secondary text-base px-8 py-4">
                 <Users className="w-5 h-5" />
-                Voter Login
+                Candidate Login
               </Link>
             </div>
 
-            {/* Admin Link */}
-            <p className="mt-6 text-sm text-muted-foreground animate-fade-in-up stagger-3">
-              Election officer?{' '}
-              <Link to="/admin-login" className="text-accent hover:underline font-medium">
-                Access Admin Portal →
+            {/* Login Options */}
+            <div className="flex flex-col sm:flex-row gap-4 justify-center mt-6 animate-fade-in-up stagger-3">
+              <Link to="/admin-login" className="inline-flex items-center gap-2 px-6 py-3 rounded-xl border border-accent/30 bg-accent/5 text-accent hover:bg-accent/10 transition-all font-medium">
+                <Shield className="w-5 h-5" />
+                Election Committee Login
               </Link>
-            </p>
+            </div>
           </div>
 
           {/* Hero Visual */}
