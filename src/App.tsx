@@ -12,6 +12,8 @@ import Login from "./pages/Login";
 import VoterDashboard from "./pages/VoterDashboard";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
+import CandidateRegistration from "./pages/CandidateRegistration";
+import CandidateSuccess from "./pages/CandidateSuccess";
 import About from "./pages/About";
 import Help from "./pages/Help";
 import NotFound from "./pages/NotFound";
@@ -33,6 +35,8 @@ const App = () => (
               <Route path="/verify-otp" element={<VerifyOTP />} />
               <Route path="/login" element={<Login />} />
               <Route path="/dashboard" element={<VoterDashboard />} />
+              <Route path="/candidate-register" element={<CandidateRegistration />} />
+              <Route path="/candidate-success" element={<CandidateSuccess />} />
               <Route path="/admin-login" element={<AdminLogin />} />
               <Route path="/admin" element={<AdminDashboard />} />
               <Route path="/about" element={<About />} />
