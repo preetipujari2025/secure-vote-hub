@@ -92,9 +92,9 @@ const Home = () => {
                 <Vote className="w-5 h-5" />
                 Register to Vote
               </Link>
-              <Link to="/login" className="btn-secondary text-base px-8 py-4">
+              <Link to="/candidate-register" className="btn-secondary text-base px-8 py-4">
                 <Users className="w-5 h-5" />
-                Candidate Login
+                Candidate Registration
               </Link>
             </div>
 

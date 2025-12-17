@@ -34,6 +34,36 @@ export interface Admin {
   passwordHash: string;
 }
 
+export interface CandidateRegistration {
+  id?: string;
+  fullName: string;
+  fatherName: string;
+  dateOfBirth: string;
+  gender: string;
+  email: string;
+  mobile: string;
+  address: string;
+  constituency: string;
+  aadhaarNumber: string;
+  panNumber: string;
+  voterIdNumber: string;
+  partyId: string;
+  partyName: string;
+  partySymbol: string;
+  manifesto: string;
+  documents: {
+    aadhaar: boolean;
+    pan: boolean;
+    voterId: boolean;
+    educationCert: boolean;
+    criminalRecord: boolean;
+    assetDeclaration: boolean;
+  };
+  status: 'pending' | 'verified' | 'approved' | 'rejected';
+  applicationId?: string;
+  submittedAt?: string;
+}
+
 // ============================================
 // ENCRYPTION & HASHING UTILITIES
 // ============================================
@@ -181,7 +211,88 @@ const STORAGE_KEYS = {
   VOTES: 'voting_system_votes',
   CURRENT_USER: 'voting_system_current_user',
   PENDING_OTP: 'voting_system_pending_otp',
+  CANDIDATE_REGISTRATIONS: 'voting_system_candidate_registrations',
 };
+
+// ============================================
+// CANDIDATE REGISTRATION
+// ============================================
+
+/**
+ * Generate application ID for candidate registration
+ */
+function generateApplicationId(): string {
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
+  let result = 'CAND-';
+  for (let i = 0; i < 8; i++) {
+    result += chars.charAt(Math.floor(Math.random() * chars.length));
+  }
+  return result;
+}
+
+/**
+ * Get all candidate registrations
+ */
+export function getCandidateRegistrations(): CandidateRegistration[] {
+  const data = localStorage.getItem(STORAGE_KEYS.CANDIDATE_REGISTRATIONS);
+  return data ? JSON.parse(data) : [];
+}
+
+/**
+ * Save candidate registrations
+ */
+function saveCandidateRegistrations(registrations: CandidateRegistration[]): void {
+  localStorage.setItem(STORAGE_KEYS.CANDIDATE_REGISTRATIONS, JSON.stringify(registrations));
+}
+
+/**
+ * Register a new candidate
+ */
+export function registerCandidate(candidate: Omit<CandidateRegistration, 'id' | 'status' | 'applicationId' | 'submittedAt'>): 
+  { success: boolean; message: string; applicationId?: string } {
+  const registrations = getCandidateRegistrations();
+  
+  // Check for duplicate Aadhaar or Voter ID
+  const duplicate = registrations.find(
+    r => r.aadhaarNumber === candidate.aadhaarNumber || r.voterIdNumber === candidate.voterIdNumber
+  );
+  
+  if (duplicate) {
+    return { success: false, message: 'A candidate with this Aadhaar or Voter ID is already registered' };
+  }
+  
+  const applicationId = generateApplicationId();
+  const newRegistration: CandidateRegistration = {
+    ...candidate,
+    id: Date.now().toString(),
+    status: 'pending',
+    applicationId,
+    submittedAt: new Date().toISOString(),
+  };
+  
+  registrations.push(newRegistration);
+  saveCandidateRegistrations(registrations);
+  
+  return { success: true, message: 'Registration successful', applicationId };
+}
+
+/**
+ * Update candidate status (admin only)
+ */
+export function updateCandidateStatus(applicationId: string, status: CandidateRegistration['status']): 
+  { success: boolean; message: string } {
+  const registrations = getCandidateRegistrations();
+  const index = registrations.findIndex(r => r.applicationId === applicationId);
+  
+  if (index === -1) {
+    return { success: false, message: 'Candidate not found' };
+  }
+  
+  registrations[index].status = status;
+  saveCandidateRegistrations(registrations);
+  
+  return { success: true, message: `Candidate status updated to ${status}` };
+}
 
 // Hard-coded admin credentials
 const ADMIN_CREDENTIALS: Admin = {
