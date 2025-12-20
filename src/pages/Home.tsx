@@ -75,9 +75,9 @@ const Home = () => {
             </div>
 
             {/* Title */}
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 animate-fade-in-up">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-primary mb-6 animate-fade-in-up">
               Online Voting
-              <span className="block gradient-text">System</span>
+              <span className="block">System</span>
             </h1>
 
             {/* Subtitle */}
