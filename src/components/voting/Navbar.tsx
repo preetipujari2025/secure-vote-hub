@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { getCurrentSession, logout } from '@/lib/votingSystem';
-import { Shield, Menu, X, LogOut, User, Home, HelpCircle, Info } from 'lucide-react';
+import { Shield, Menu, X, LogOut, User, Home, HelpCircle, Info, UserPlus } from 'lucide-react';
 
 const Navbar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -33,7 +33,10 @@ const Navbar = () => {
               <Shield className="w-5 h-5 text-primary-foreground" />
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-lg font-bold text-foreground leading-tight">Online Voting</h1>
+              <h1 className="text-lg font-bold leading-tight">
+                <span className="text-foreground">Online Voting</span>{' '}
+                <span className="text-foreground">System</span>
+              </h1>
               <p className="text-xs text-muted-foreground">Secure • Transparent • Easy</p>
             </div>
           </Link>
@@ -76,6 +79,9 @@ const Navbar = () => {
               <>
                 <Link to="/login" className="btn-ghost">
                   Voter Login
+                </Link>
+                <Link to="/candidate-register" className="btn-ghost">
+                  Candidate Login
                 </Link>
                 <Link to="/admin-login" className="btn-ghost">
                   Admin
@@ -145,6 +151,14 @@ const Navbar = () => {
                   >
                     <User className="w-5 h-5" />
                     Voter Login
+                  </Link>
+                  <Link
+                    to="/candidate-register"
+                    onClick={() => setIsMenuOpen(false)}
+                    className="flex items-center gap-3 px-4 py-3 rounded-lg text-muted-foreground hover:bg-secondary transition-colors"
+                  >
+                    <UserPlus className="w-5 h-5" />
+                    Candidate Login
                   </Link>
                   <Link
                     to="/admin-login"
