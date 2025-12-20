@@ -33,9 +33,8 @@ const Navbar = () => {
               <Shield className="w-5 h-5 text-primary-foreground" />
             </div>
             <div className="hidden sm:block">
-              <h1 className="text-lg font-bold leading-tight">
-                <span className="text-foreground">Online Voting</span>{' '}
-                <span className="text-foreground">System</span>
+              <h1 className="text-lg font-bold leading-tight text-primary">
+                Online Voting System
               </h1>
               <p className="text-xs text-muted-foreground">Secure • Transparent • Easy</p>
             </div>
